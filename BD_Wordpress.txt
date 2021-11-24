@@ -1,0 +1,155 @@
+add_filter( 'the_content', 'dcms_list_data' );
+
+function dcms_list_data( $content ) {
+	$database_name = 'LMS_Wordpress'; // nombre de la base de datos
+	$database_user = 'root';
+	$database_pass = 'root';
+	$database_server = 'localhost';
+
+	$table_name1 = 'tbl_perfil'; // nombre de la tabla
+	$table_name2 = 'tbl_curso'; // nombre de la tabla
+	$table_name3 = 'tbl_estudiante'; // nombre de la tabla
+	$table_name4 = 'tbl_docente'; // nombre de la tabla
+	$table_name5 = 'tbl_multimedia'; // nombre de la tabla
+	$table_name6 = 'tbl_calificacion'; // nombre de la tabla
+	$slug_page = 'LMS_Wordpress'; //slug de la página en donde se mostrará la tabla
+
+	if (is_page($slug_page)){
+
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name1`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->perf_no.'</td>
+				<td>'.$item->first_name.'</td>
+				<td>'.$item->profile_type.'</td>
+			</tr>';
+		}
+
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Nombre</th>
+			            <th>Tipo de perfil</th>
+			          </tr>
+			          {data}
+			        </table>';
+
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name2`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->curso_no.'</td>
+				<td>'.$item->first_name.'</td>
+				<td>'.$item->horario'</td>
+			</tr>';
+		}
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Nombre</th>
+			            <th>Horario</th>
+			          </tr>
+			          {data}
+			        </table>';
+
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name3`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->Estudiante_no.'</td>
+				<td>'.$item->first_name.'</td>
+				<td>'.$item->last_name.'</td>
+				<td>'.$item->age'</td>
+				<td>'.$item->address'</td
+				<td>'.$item->phone'</td
+			</tr>';
+		}
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Nombre</th>
+			            <th>Apellido</th>
+			            <th>Edad</th>
+			            <th>Direccion</th>
+			            <th>Telefono</th>
+			          </tr>
+			          {data}
+			        </table>';
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name4`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->Docente_no.'</td>
+				<td>'.$item->first_name.'</td>
+				<td>'.$item->last_name.'</td>
+				<td>'.$item->age'</td>
+				<td>'.$item->address'</td
+				<td>'.$item->phone'</td
+				<td>'.$item->shedule'</td
+			</tr>';
+		}
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Nombre</th>
+			            <th>Apellido</th>
+			            <th>Edad</th>
+			            <th>Direccion</th>
+			            <th>Telefono</th>
+			            <th>Horario</th>
+			          </tr>
+			          {data}
+			        </table>';
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name5`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->mult_no.'</td>
+				<td>'.$item->name.'</td>
+				<td>'.$item->format.'</td>
+			</tr>';
+		}
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Nombre</th>
+			            <th>Formato</th>
+			          </tr>
+			          {data}
+			        </table>';
+
+		$mydb = new wpdb($database_user, $database_pass, $database_name, $database_server);
+		$items = $mydb->get_results("SELECT * FROM `$table_name6`");
+
+		// nombre de los campos de la tabla
+		foreach ($items as $item) {
+			$result .= '<tr>
+				<td>'.$item->calf_no.'</td>
+				<td>'.$item->curso.'</td>
+				<td>'.$item->nota.'</td>
+			</tr>';
+		}
+		$template = '<table class="table-data">
+			          <tr>
+			            <th>ID</th>
+			            <th>Curso</th>
+			            <th>Nota</th>
+			          </tr>
+			          {data}
+			        </table>';
+	    return $content.str_replace('{data}', $result, $template);
+	}
+
+	return $content;
+}
